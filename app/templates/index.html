@@ -1,0 +1,45 @@
+{# index.html #}
+{# This is the main/home page #}
+{% extends 'base.html' %}
+{% block content %}
+<h1>Flask Auto-table Selection</h1>
+<p>
+    I'm trying to use jQuery to manipulate data in a table that will be populated with information by Jinja.
+</p>
+{# API Form #}
+<form action="" method="POST">
+    <div class="form-group">
+        {{ form.csrf_token }}
+        {{ form.api.label(for="apiEndpointInput") }}
+        {{ form.api(class_="form-control", id="apiEndpointInput", **{"aria-describedby":"apiEndpointInputHelp"}) }}
+        <small id="apiEndpointInputHelp" class="form-text text-muted">This only works with https://jsonplaceholder.typicode.com/posts right now...</small>
+    </div>
+    {{ form.submit() }}
+</form>
+{% if apidata %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">User ID</th>
+            <th scope="col">Post ID</th>
+            <th scope="col">Post Title</th>
+            <th scope="col">Post Body</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for post in apidata %}
+        <tr>
+            <th scope="row">{{ post['userId'] }}</th>
+            <td>{{ post['id'] }}</td>
+            <td>{{ post['title'] }}</td>
+            <td>{{ post['body'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% endblock %}

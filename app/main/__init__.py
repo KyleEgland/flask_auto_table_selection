@@ -1,0 +1,9 @@
+#! python
+#
+# __init__.py <= main
+from flask import Blueprint
+
+
+bp = Blueprint('main', __name__)
+
+from app.main import routes
