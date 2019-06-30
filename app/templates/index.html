@@ -29,8 +29,16 @@
     <tbody>
         {% for post in apidata %}
         <tr>
-            <th scope="row">{{ post['userId'] }}</th>
-            <td>{{ post['id'] }}</td>
+            <th scope="row">
+                <a href="{{ baseurl }}" class="usr-id" data-usrid="usr-{{ post['userId'] }}">
+                    {{ post['userId'] }}
+                </a>
+            </th>
+            <td>
+                <a href="{{ baseurl }}" class="post-id" data-postid="post-{{ post['id'] }}">
+                    {{ post['id'] }}
+                </a>
+            </td>
             <td>{{ post['title'] }}</td>
             <td>{{ post['body'] }}</td>
         </tr>
@@ -42,4 +50,5 @@
 
 {% block scripts %}
 {{ super() }}
+<script src="{{ url_for('static', filename='javascript/main/modal_handler.js') }}"></script>
 {% endblock %}
