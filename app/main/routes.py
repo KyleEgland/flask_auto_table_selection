@@ -15,7 +15,7 @@ from urllib.parse import urlparse
 
 
 @bp.route('/', methods=['GET', 'POST'])
-@bp.route('/index')
+@bp.route('/index', methods=['GET', 'POST'])
 def index():
 
     form = ApiForm()
@@ -95,3 +95,30 @@ def index():
             form.api.data = session['apiurl']
 
     return render_template('index.html', tite='Home', form=form)
+
+
+@bp.route('/apicall', methods=['POST'])
+def apicall():
+    # Check for json that should be passed in by the caller
+    if request.get_json():
+        # Get the json from the request
+        content = request.get_json()
+
+        r = requests.get(content['target'])
+
+        status = r.status_code
+
+        # Handle a bad response
+        if status != 200:
+
+            return render_template('_reqerr.html', status=status,
+                                   result=r.content)
+        # If everything is good to go, extract the json into a variable
+        data = r.json()
+
+        return render_template('_{}.html'.format(content['objtype']),
+                               data=data)
+    # Should there be no json, handle that as an error
+    else:
+        return render_template('_reqerr.html', status="No request made",
+                               result="No JSON received in request")

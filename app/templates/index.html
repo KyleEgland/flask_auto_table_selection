@@ -37,13 +37,13 @@
         <tr>
             <th scope="row">
                 {# Creating a link that will trigger a modal to display the information for selected user #}
-                <a href="{{ baseurl }}/users/{{ post['userId'] }}" data-toggle="modal" data-target="#infoModal" class="btn usr-id" data-objtype="user" data-usrid="usr-{{ post['userId'] }}">
+                <a href="{{ baseurl }}/users/{{ post['userId'] }}" data-toggle="modal" data-target="#infoModal" class="btn usr-id" data-objtype="user" data-user="{{ post['userId'] }}">
                     <u>{{ post['userId'] }}</u>
                 </a>
             </th>
             <td>
                 {# Creating a link that will trigger a modal to display the information for selected post #}
-                <a href="{{ baseurl }}/posts/{{ post['id'] }}" data-toggle="modal" data-target="#infoModal" class="btn post-id" data-postid="post-{{ post['id'] }}">
+                <a href="{{ baseurl }}/posts/{{ post['id'] }}" data-toggle="modal" data-target="#infoModal" class="btn post-id" data-objtype="post" data-post="{{ post['id'] }}">
                     <u>{{ post['id'] }}</u>
                 </a>
             </td>
@@ -71,20 +71,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Recipient:</label>
-            <input type="text" class="form-control" id="recipient-name">
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="col-form-label">Message:</label>
-            <textarea class="form-control" id="message-text"></textarea>
-          </div>
-        </form>
+        <span id="js-hook"></span>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
       </div>
     </div>
   </div>

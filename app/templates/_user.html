@@ -1,0 +1,16 @@
+{# _user.html #}
+{# This file is a template stub for posts #}
+<div>
+    <h1 class="text-center">{{ data['name'] }} - {{ data['username'] }}</h1>
+    <h4 class="text-center">{{ data['email'] }}</h4>
+    <hr class="my-4">
+    <h5>Contact Info</h5>
+    <p>
+        Phone: {{ data['phone'] }}
+    </p>
+    <p>
+        {{ data['address']['street']}}<br>
+        {{ data['address']['suite']}}<br>
+        {{ data['address']['city']}} {{ data['address']['zipcode']}}<br>
+    </p>
+</div>
