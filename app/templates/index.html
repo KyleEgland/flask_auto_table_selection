@@ -4,9 +4,11 @@
 {% block content %}
 <h1>Flask Auto-table Selection</h1>
 <p>
-    I'm trying to use jQuery to manipulate data in a table that will be populated with information by Jinja.
+    Using jQuery to manipulate data in a table that will be populated with information by Jinja.
 </p>
 {# API Form #}
+{# Was originally going to do something fancier than what's here, however, it was too ambitious. #}
+{# Leaving the form in for my/other's reference. #}
 <form action="" method="POST">
     <div class="form-group">
         {{ form.csrf_token }}
@@ -14,10 +16,13 @@
         {{ form.api(class_="form-control", id="apiEndpointInput", **{"aria-describedby":"apiEndpointInputHelp"}) }}
         <small id="apiEndpointInputHelp" class="form-text text-muted">This only works with https://jsonplaceholder.typicode.com/posts right now...</small>
     </div>
-    {{ form.submit() }}
+    {{ form.submit(class_="btn btn-dark") }}
 </form>
+{# ----- #}
+{# Table #}
+{# ----- #}
 {% if apidata %}
-<table class="table">
+<table class="table mt-2">
     <thead>
         <tr>
             <th scope="col">User ID</th>
@@ -27,16 +32,19 @@
         </tr>
     </thead>
     <tbody>
+        {# Loop through the items passed in by apidata (dictionary) #}
         {% for post in apidata %}
         <tr>
             <th scope="row">
-                <a href="{{ baseurl }}" class="usr-id" data-usrid="usr-{{ post['userId'] }}">
-                    {{ post['userId'] }}
+                {# Creating a link that will trigger a modal to display the information for selected user #}
+                <a href="{{ baseurl }}/users/{{ post['userId'] }}" data-toggle="modal" data-target="#infoModal" class="btn usr-id" data-objtype="user" data-usrid="usr-{{ post['userId'] }}">
+                    <u>{{ post['userId'] }}</u>
                 </a>
             </th>
             <td>
-                <a href="{{ baseurl }}" class="post-id" data-postid="post-{{ post['id'] }}">
-                    {{ post['id'] }}
+                {# Creating a link that will trigger a modal to display the information for selected post #}
+                <a href="{{ baseurl }}/posts/{{ post['id'] }}" data-toggle="modal" data-target="#infoModal" class="btn post-id" data-postid="post-{{ post['id'] }}">
+                    <u>{{ post['id'] }}</u>
                 </a>
             </td>
             <td>{{ post['title'] }}</td>
@@ -46,6 +54,41 @@
     </tbody>
 </table>
 {% endif %}
+{# --------------- #}
+{# Bootstrap Modal #}
+{# --------------- #}
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open modal for @fat</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button> -->
+
+<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoModalLabel">Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
